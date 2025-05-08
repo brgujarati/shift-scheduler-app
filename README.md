@@ -24,9 +24,9 @@ Entity Relationship Diagram (ERD) showing database schema:
 
 The following wireframes visualize the UI structure of each page:
 
-- [Landing Page Wireframe](docs/wireframe_landing_page.png)
-- [Login Page Wireframe](docs/wireframe_login_page.png)
-- [Admin Dashboard Wireframe](docs/wireframe_admin_dashboard.png)
-- [Add/Edit Shift Wireframe](docs/wireframe_add_edit_shift.png)
-- [Employee Dashboard Wireframe](docs/wireframe_employee_dashboard.png)
-- [Availability Calendar Wireframe](docs/wireframe_availability_calendar.png)
+- [Landing Page Wireframe](docs/ui_wireframe_landing_page.png)
+- [Login Page Wireframe](docs/ui_wireframe_login_page.png)
+- [Admin Dashboard Wireframe](docs/ui_wireframe_admin_dashboard.png)
+- [Add/Edit Shift Wireframe](docs/ui_wireframe_add_edit_shift.png)
+- [Employee Dashboard Wireframe](docs/ui_wireframe_employee_dashboard.png)
+- [Availability Calendar Wireframe](docs/ui_wireframe_availability_calendar.png)
