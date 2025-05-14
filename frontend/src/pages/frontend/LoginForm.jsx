@@ -1,9 +1,8 @@
-// components/LoginForm.jsx
 function LoginForm({ formik, onFlip }) {
   return (
     <div
       className="absolute w-full h-full backface-hidden bg-white rounded-lg shadow-lg p-8 flex flex-col"
-      style={{ transform: "rotateY(0deg)" }}
+      style={{ transform: "rotateY(0deg)", backfaceVisibility: "hidden" }}
     >
       <h2 className="text-xl font-bold text-center mb-4">Log in</h2>
       <form onSubmit={formik.handleSubmit} className="flex flex-col gap-3">
@@ -23,9 +22,12 @@ function LoginForm({ formik, onFlip }) {
         <div>
           <label className="text-sm font-medium text-gray-700 flex justify-between">
             Password
-            <a href="#" className="text-sm text-indigo-600 hover:underline">
+            <span
+              className="text-sm text-indigo-600 hover:underline cursor-pointer"
+              onClick={() => onFlip("forgot")}
+            >
               Forgot Password?
-            </a>
+            </span>
           </label>
           <input
             type="password"
@@ -61,7 +63,7 @@ function LoginForm({ formik, onFlip }) {
         Don't have an account?{" "}
         <span
           className="text-indigo-600 font-medium hover:underline cursor-pointer"
-          onClick={onFlip}
+          onClick={() => onFlip("signup")}
         >
           Signup
         </span>

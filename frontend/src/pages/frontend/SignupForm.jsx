@@ -1,9 +1,8 @@
-// components/SignupForm.jsx
 function SignupForm({ formik, onFlip }) {
   return (
     <div
       className="absolute w-full h-full backface-hidden bg-white rounded-lg shadow-lg p-8 flex flex-col"
-      style={{ transform: "rotateY(180deg)" }}
+      style={{ transform: "rotateY(180deg)", backfaceVisibility: "hidden" }}
     >
       <h2 className="text-xl font-bold text-center mb-4">Sign Up</h2>
       <form onSubmit={formik.handleSubmit} className="flex flex-col gap-3">
@@ -54,7 +53,7 @@ function SignupForm({ formik, onFlip }) {
         Already have an account?{" "}
         <span
           className="text-indigo-600 font-medium hover:underline cursor-pointer"
-          onClick={onFlip}
+          onClick={() => onFlip("login")}
         >
           Login
         </span>
