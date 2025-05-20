@@ -8,7 +8,6 @@ export default function ProfileForm() {
     name: "John Doe",
     email: "john.doe@example.com",
     id: "EMP001",
-    role: "",
     phone: "",
     address1: "",
     address2: "",
@@ -40,17 +39,6 @@ export default function ProfileForm() {
             <div className="bg-white p-6 rounded-xl shadow">
               <h2 className="text-lg font-bold mb-4">Update Your Profile</h2>
               <div className="grid grid-cols-1 gap-4">
-                <select
-                  name="role"
-                  value={formData.role}
-                  onChange={handleChange}
-                  className="p-2 border rounded"
-                >
-                  <option value="">Select Role</option>
-                  <option value="Driver">Driver</option>
-                  <option value="Porter">Porter</option>
-                  <option value="Supervisor">Supervisor</option>
-                </select>
                 <input
                   name="phone"
                   value={formData.phone}
