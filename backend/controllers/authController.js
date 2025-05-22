@@ -37,13 +37,11 @@ exports.registerUser = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
-
 // ✅ Login Route
 exports.loginUser = async (req, res) => {
   try {
     const { email, password, role } = req.body;
 
-    // ✅ Validate role
     if (!["admin", "employee"].includes(role)) {
       return res.status(400).json({ message: "Invalid role" });
     }
@@ -58,10 +56,8 @@ exports.loginUser = async (req, res) => {
       return res.status(400).json({ message: "Invalid email or password" });
     }
 
-    // ✅ Assign role and userCode if missing
     if (user.role === "") {
       user.role = role;
-
       if (!user.userCode) {
         const prefix = role === "admin" ? "AD" : "EMP";
         user.userCode = `${prefix}-${user._id
@@ -69,19 +65,30 @@ exports.loginUser = async (req, res) => {
           .slice(-4)
           .toUpperCase()}`;
       }
-
       await user.save();
     } else if (user.role !== role) {
       return res.status(400).json({ message: "Role mismatch. Contact admin." });
     }
 
-    // ✅ Generate JWT
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
+    // ✅ Generate JWT Token
+    const token = jwt.sign(
+      { id: user._id, role: user.role },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "7d",
+      }
+    );
+
+    // ✅ Set HTTP-only Cookie
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production", // use true in production
+      sameSite: "Strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
+    // ✅ Send basic info (no token in body)
     res.status(200).json({
-      token,
       message: "Login successful",
     });
   } catch (err) {
@@ -122,4 +129,13 @@ exports.forgotPassword = async (req, res) => {
     console.error("❌ Forgot password error:", err.message);
     res.status(500).json({ message: "Server error during password reset" });
   }
+};
+
+exports.logoutUser = (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    sameSite: "Lax", // or 'Strict' or 'None' depending on your setup
+    secure: process.env.NODE_ENV === "production", // true in production
+  });
+  return res.status(200).json({ message: "Logged out successfully" });
 };

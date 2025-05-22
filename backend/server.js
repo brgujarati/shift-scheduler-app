@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const connectDB = require("./config/db");
 const routes = require("./routes");
+const cookieParser = require("cookie-parser");
 
 require("dotenv").config();
 
@@ -11,8 +12,15 @@ const app = express();
 connectDB();
 
 // Step 3: Middleware setup
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173", // your frontend
+    credentials: true, // ✅ allow cookies to be sent
+  })
+);
 app.use(express.json());
+
+app.use(cookieParser());
 
 // 👇 mount the route BEFORE app.listen
 app.use("/api", routes);
