@@ -136,8 +136,6 @@ exports.getAllShifts = async (req, res) => {
 /////////////////////Three ///////////////////////////////
 exports.updateShift = async (req, res) => {
   try {
-    console.log("🧾 Token User Info:", req.user);
-
     const shiftId = req.params.id;
     const shift = await Shift.findById(shiftId);
 
