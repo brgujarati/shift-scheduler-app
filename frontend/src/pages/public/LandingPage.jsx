@@ -62,15 +62,16 @@ function LandingPage() {
           </div>
 
           <div>
-            <h3 className="text-xl font-semibold">🖥️ Preview the App</h3>
-            <img
-              src="/screenshots/admin-dashboard.png"
-              alt="Admin Dashboard Preview"
-              className="mt-4 rounded-xl shadow-md w-full max-w-2xl"
-            />
-            <p className="text-gray-600 mt-2">
-              Admin Dashboard – manage and assign shifts in one place.
-            </p>
+            <h3 className="text-xl font-semibold">📝 Key Features</h3>
+            <ul className="list-disc pl-6 mt-4 space-y-2 text-gray-700">
+              <li>🔹 Easy shift management for both Admins and Employees.</li>
+              <li>🔹 Real-time updates and notifications.</li>
+              <li>
+                🔹 Secure JWT authentication and role-based access control.
+              </li>
+              <li>🔹 Responsive design for mobile and desktop.</li>
+              <li>🔹 Comprehensive shift summary and analytics.</li>
+            </ul>
           </div>
 
           <div className="max-w-xl text-left space-y-2">
@@ -100,7 +101,7 @@ function LandingPage() {
             <p>
               🔗{" "}
               <a
-                href="https://github.com/your-username/shift-scheduler-app"
+                href="https://github.com/brgujarati/shift-scheduler-app"
                 target="_blank"
                 className="text-blue-600 underline"
               >
@@ -110,7 +111,7 @@ function LandingPage() {
             <p>
               📄{" "}
               <a
-                href="https://github.com/your-username/shift-scheduler-app#readme"
+                href="https://github.com/brgujarati/shift-scheduler-app/blob/main/README.md"
                 target="_blank"
                 className="text-blue-600 underline"
               >
@@ -168,16 +169,18 @@ function LandingPage() {
             </div>
           </div>
 
-          <p className="text-sm text-gray-500 text-center">
-            Demo Credentials:
-            <br />
-            <code>admin@example.com / password123</code>
-            <br />
-            <code>employee@example.com / password123</code>
-          </p>
-
-          <div className="text-sm text-gray-400 text-center">
-            Questions? Contact support@yourdomain.com
+          <div className="w-full max-w-md mx-auto text-sm text-gray-500 text-left mt-4">
+            <p className="font-semibold text-center">🚀 Quick Access:</p>
+            <ul className="list-disc list-inside mt-2">
+              <li>If you already have an account, simply log in.</li>
+              <li>
+                If you don't have an account, sign up with your email <br />
+                (e.g., admin@example.com).
+              </li>
+              <li>
+                Forgot your password? Just use the same email to reset it.
+              </li>
+            </ul>
           </div>
         </div>
       </main>

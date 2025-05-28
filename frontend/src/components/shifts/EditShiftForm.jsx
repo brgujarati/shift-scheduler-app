@@ -4,6 +4,7 @@ import Select from "react-select";
 import { useAuth } from "../../context/AuthContext";
 
 export default function EditShiftForm({ shift, onCancel, onSubmit }) {
+  console.log("edit shift", shift);
   const { employees } = useAuth();
   const teamOptions = employees?.map((emp) => ({
     label: emp.name, // ✅ show name in dropdown
@@ -177,7 +178,7 @@ export default function EditShiftForm({ shift, onCancel, onSubmit }) {
                   Instructions
                 </label>
                 <Field
-                  name="instructions"
+                  name="instruction"
                   as="textarea"
                   rows="2"
                   className="mt-1 w-full p-2 border rounded"

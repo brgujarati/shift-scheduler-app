@@ -14,7 +14,7 @@ export const useAddShiftForm = (navigate) => {
       startTime: "",
       endTime: "",
       teamMembers: [],
-      instructions: "",
+      instruction: "",
     },
     validationSchema: Yup.object({
       clientName: Yup.string().required("Required"),
@@ -31,10 +31,10 @@ export const useAddShiftForm = (navigate) => {
         date: values.date,
         startTime: values.startTime,
         endTime: values.endTime,
-        instruction: values.instructions,
+        instruction: values.instruction,
         team: values.teamMembers.map((member) => member.value),
       };
-
+      console.log("team", shiftData);
       try {
         const res = await createShift(shiftData);
         alert(`✅ Shift Created! ID: ${res.shiftId}`);

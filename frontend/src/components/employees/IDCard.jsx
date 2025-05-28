@@ -5,7 +5,7 @@ export default function IDCard({ emp }) {
   return (
     <div className="bg-white border rounded-xl shadow flex p-4 gap-4 w-full">
       <img
-        src={emp.profilePicUrl || "https://via.placeholder.com/80"}
+        src={emp.profilePicUrl}
         alt="profile"
         className="w-24 h-24 rounded-lg border"
       />
