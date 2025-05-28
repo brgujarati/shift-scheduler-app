@@ -1,34 +1,29 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Select from "react-select";
-
-const teamMemberOptions = [
-  { value: "Jimil Goswami", label: "Jimil Goswami" },
-  { value: "Virendra Chavda", label: "Virendra Chavda" },
-  { value: "Abdulkarim Qureshi", label: "Abdulkarim Qureshi" },
-  { value: "Brijesh Gujarati", label: "Brijesh Gujarati" },
-  { value: "Meet Gadhesariya", label: "Meet Gadhesariya" },
-  { value: "Muhammed Saleh", label: "Muhammed Saleh" },
-  { value: "Nina Patel", label: "Nina Patel" },
-  { value: "Emily Tran", label: "Emily Tran" },
-  { value: "Ravi Desai", label: "Ravi Desai" },
-  { value: "Ayesha Khan", label: "Ayesha Khan" },
-];
+import { useAuth } from "../../context/AuthContext";
 
 export default function EditShiftForm({ shift, onCancel, onSubmit }) {
+  const { employees } = useAuth();
+  const teamOptions = employees?.map((emp) => ({
+    label: emp.name, // ✅ show name in dropdown
+    value: emp._id, // ✅ store _id internally
+  }));
+  const selectedTeam =
+    shift.team?.map((id) => {
+      const match = teamOptions.find((opt) => opt.value === id);
+      return match || { label: id, value: id }; // fallback to ID if name not found
+    }) || [];
+
   const initialValues = {
     clientName: shift.clientName || "",
     siteAddress: shift.siteAddress || "",
     nearestStation: shift.nearestStation || "",
-    date: shift.date || "",
+    date: shift.date?.substring(0, 10) || "",
     startTime: shift.startTime || "",
     endTime: shift.endTime || "",
-    teamMembers:
-      shift.teamMembers?.map((member) => ({
-        label: member,
-        value: member,
-      })) || [],
-    instructions: shift.instructions || "",
+    team: selectedTeam, // ✅ now it's label/value objects
+    instruction: shift.instruction || "",
   };
 
   return (
@@ -36,6 +31,7 @@ export default function EditShiftForm({ shift, onCancel, onSubmit }) {
       <div className="max-w-2xl w-full bg-white shadow rounded-2xl p-6">
         <Formik
           initialValues={initialValues}
+          enableReinitialize={true}
           validationSchema={Yup.object({
             clientName: Yup.string().required("Required"),
             siteAddress: Yup.string().required("Required"),
@@ -46,7 +42,7 @@ export default function EditShiftForm({ shift, onCancel, onSubmit }) {
           onSubmit={(values) => {
             const formatted = {
               ...values,
-              teamMembers: values.teamMembers.map((member) => member.value),
+              team: values.team.map((member) => member.value), // ✅ team is defined now
             };
             onSubmit(formatted);
           }}
@@ -145,14 +141,12 @@ export default function EditShiftForm({ shift, onCancel, onSubmit }) {
                 </label>
                 <Select
                   isMulti
-                  options={teamMemberOptions}
-                  name="teamMembers"
+                  options={teamOptions}
+                  name="team"
                   className="mt-1"
                   classNamePrefix="select"
-                  value={values.teamMembers}
-                  onChange={(selected) =>
-                    setFieldValue("teamMembers", selected)
-                  }
+                  value={values.team}
+                  onChange={(selected) => setFieldValue("team", selected)}
                   styles={{
                     control: (base) => ({
                       ...base,

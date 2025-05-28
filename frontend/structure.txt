@@ -1,0 +1,79 @@
+frontend
+├── README.md
+├── eslint.config.js
+├── index.html
+├── package-lock.json
+├── package.json
+├── postcss.config.cjs
+├── public
+│   └── vite.svg
+├── src
+│   ├── App.jsx
+│   ├── api
+│   │   ├── authClient.js
+│   │   ├── axios.js
+│   │   ├── shiftClient.js
+│   │   └── userClient.js
+│   ├── assets
+│   │   ├── 1.jpg
+│   │   ├── 2.jpg
+│   │   └── 3.jpg
+│   ├── components
+│   │   ├── auth
+│   │   │   ├── ForgotPasswordForm.jsx
+│   │   │   ├── LoginForm.jsx
+│   │   │   └── SignupForm.jsx
+│   │   ├── common
+│   │   │   ├── Navbar.jsx
+│   │   │   ├── ShiftCard.jsx
+│   │   │   └── Sidebar.jsx
+│   │   ├── routing
+│   │   │   └── ProtectedRoute.jsx
+│   │   └── shifts
+│   │       └── EditShiftForm.jsx
+│   ├── context
+│   │   └── AuthContext.jsx
+│   ├── dummyShifts.json
+│   ├── hooks
+│   │   ├── auth
+│   │   │   ├── useForgotFormik.js
+│   │   │   ├── useLoginFormik.js
+│   │   │   └── useSignupFormik.js
+│   │   ├── profile
+│   │   └── shifts
+│   ├── layouts
+│   │   ├── AdminLayout.jsx
+│   │   └── EmployeeLayout.jsx
+│   ├── main.jsx
+│   ├── pages
+│   │   ├── admin
+│   │   │   ├── AddShift.jsx
+│   │   │   ├── AdminDashboard.jsx
+│   │   │   ├── AdminHeader.jsx
+│   │   │   ├── AdminProfile.jsx
+│   │   │   ├── AdminSettings.jsx
+│   │   │   ├── EmployeeList.jsx
+│   │   │   ├── ManageShifts.jsx
+│   │   │   └── index.js
+│   │   ├── employee
+│   │   │   ├── Employee.jsx
+│   │   │   ├── EmployeeDashboard.jsx
+│   │   │   ├── EmployeeProfile.jsx
+│   │   │   ├── MyShifts.jsx
+│   │   │   ├── Settings.jsx
+│   │   │   └── index.jsx
+│   │   └── public
+│   │       └── LandingPage.jsx
+│   ├── routes
+│   │   └── AppRoutes.jsx
+│   ├── services
+│   │   ├── authService.js
+│   │   ├── shiftService.js
+│   │   └── userService.js
+│   ├── styles
+│   │   └── globals.css
+│   └── utils
+│       └── formatDate.js
+├── structure.txt
+├── tailwind.config.js
+└── vite.config.js

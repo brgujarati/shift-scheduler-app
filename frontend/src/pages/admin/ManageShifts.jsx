@@ -1,66 +1,61 @@
 import { useState } from "react";
-import dummyShifts from "../../dummyShifts.json";
-import EditShiftForm from "./EditShiftForm";
+import EditShiftForm from "../../components/shifts/EditShiftForm";
+import { updateShift, deleteShift } from "../../services/shiftService";
+import { useAuth } from "../../context/AuthContext"; // adjust path as needed
 
 export default function ManageShifts() {
-  const [shifts, setShifts] = useState(dummyShifts);
-
   const [selectedShift, setSelectedShift] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const { shifts, refreshAdminData } = useAuth();
 
-  const [editedEmployee, setEditedEmployee] = useState("");
-  const [editedClient, setEditedClient] = useState("");
-  const [editedDate, setEditedDate] = useState("");
-  const [editedStart, setEditedStart] = useState("");
-  const [editedEnd, setEditedEnd] = useState("");
-  const [editedStatus, setEditedStatus] = useState("");
-
+  //Edit Shift
   const handleEdit = (shift) => {
     setSelectedShift(shift);
-    setEditedEmployee(shift.employee);
-    setEditedClient(shift.client);
-    setEditedDate(shift.date);
-    setEditedStart(shift.start);
-    setEditedEnd(shift.end);
-    setEditedStatus(shift.status);
     setShowEditModal(true);
   };
 
+  //Edit Shift
+  const closeModals = () => {
+    setSelectedShift(null); // ✅ clear shift
+    setShowEditModal(false); // ✅ hide modal
+  };
+
+  //Edit Shift
+  const handleUpdate = async (updatedShift) => {
+    try {
+      const shiftId = selectedShift._id;
+
+      const res = await updateShift(shiftId, updatedShift);
+      alert("✅ Shift updated successfully!");
+      setShowEditModal(false);
+      setSelectedShift(null);
+      await refreshAdminData(); // ✅ Admin view refreshed — both shifts + employees
+    } catch (err) {
+      console.error("❌ Shift update failed:", err.message);
+      alert("❌ Failed to update shift.");
+    }
+  };
+
+  //Delete Shift
   const handleDelete = (shift) => {
-    setSelectedShift(shift);
+    console.log("🗑️ Shift to delete:", shift);
+    setSelectedShift(shift); // ✅ this is the missing line
     setShowDeleteModal(true);
   };
 
-  const closeModals = () => {
-    setSelectedShift(null);
-    setShowEditModal(false);
-    setShowDeleteModal(false);
-  };
-
-  const handleUpdate = (e) => {
-    e.preventDefault();
-    setShifts((prev) =>
-      prev.map((s) =>
-        s.id === selectedShift.id
-          ? {
-              ...s,
-              employee: editedEmployee,
-              client: editedClient,
-              date: editedDate,
-              start: editedStart,
-              end: editedEnd,
-              status: editedStatus,
-            }
-          : s
-      )
-    );
-    closeModals();
-  };
-
-  const handleConfirmDelete = () => {
-    setShifts((prev) => prev.filter((s) => s.id !== selectedShift.id));
-    closeModals();
+  //Delete Shift
+  const handleConfirmDelete = async () => {
+    try {
+      await deleteShift(selectedShift._id); // ✅ API call
+      await refreshAdminData(); // ✅ Refresh shift list
+      setShowDeleteModal(false); // ✅ Close modal
+      setSelectedShift(null); // ✅ Clear selection
+      alert("✅ Shift deleted successfully!");
+    } catch (err) {
+      console.error("❌ Delete failed:", err.message);
+      alert("❌ Failed to delete shift.");
+    }
   };
 
   return (
@@ -80,38 +75,39 @@ export default function ManageShifts() {
             </tr>
           </thead>
           <tbody>
-            {shifts.map((shift) => (
-              <tr
-                key={shift.id}
-                className="border-t hover:bg-gray-50 text-gray-800"
-              >
-                <td className="px-4 py-2">{shift.id}</td>
-                <td className="px-4 py-2">
-                  {shift.teamMembers?.length || 0} Members
-                </td>
-                <td className="px-4 py-2">{shift.clientName}</td>
-                <td className="px-4 py-2">{shift.date}</td>
-                <td className="px-4 py-2">{shift.startTime}</td>
-                <td className="px-4 py-2">{shift.endTime}</td>
-                <td className="px-4 py-2">{shift.status || "Assigned"}</td>
-                <td className="px-4 py-2">
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => handleEdit(shift)}
-                      className="bg-indigo-400 text-white px-4 py-2 rounded hover:bg-indigo-500"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDelete(shift)}
-                      className="bg-red-400 text-white px-4 py-2 rounded hover:bg-red-500"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
+            {Array.isArray(shifts) &&
+              shifts.map((shift) => (
+                <tr
+                  key={shift._id}
+                  className="border-t hover:bg-gray-50 text-gray-800"
+                >
+                  <td className="px-4 py-2">{shift.shiftId}</td>
+                  <td className="px-4 py-2">
+                    {shift.team?.length || 0} Members
+                  </td>
+                  <td className="px-4 py-2">{shift.clientName}</td>
+                  <td className="px-4 py-2">{shift.date}</td>
+                  <td className="px-4 py-2">{shift.startTime}</td>
+                  <td className="px-4 py-2">{shift.endTime}</td>
+                  <td className="px-4 py-2">{shift.status || "Assigned"}</td>
+                  <td className="px-4 py-2">
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => handleEdit(shift)}
+                        className="bg-indigo-400 text-white px-4 py-2 rounded hover:bg-indigo-500"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDelete(shift)}
+                        className="bg-red-400 text-white px-4 py-2 rounded hover:bg-red-500"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>
@@ -123,30 +119,23 @@ export default function ManageShifts() {
             <EditShiftForm
               shift={selectedShift}
               onCancel={closeModals}
-              onSubmit={(updatedShift) => {
-                setShifts((prev) =>
-                  prev.map((s) =>
-                    s.id === selectedShift.id ? { ...s, ...updatedShift } : s
-                  )
-                );
-                closeModals();
-              }}
+              onSubmit={handleUpdate}
             />
           </div>
         </div>
       )}
 
       {/* Delete Modal */}
-      {showDeleteModal && (
+      {showDeleteModal && selectedShift && (
         <div className="fixed inset-0  flex items-center justify-center z-50">
           <div className="bg-white rounded-xl shadow-lg p-6 w-[350px] text-center">
             <p className="mb-4">
               Are you sure you want to delete shift{" "}
-              <strong>{selectedShift.id}</strong>?
+              <strong>{selectedShift._id}</strong>?
             </p>
             <div className="flex justify-center gap-4">
               <button
-                onClick={closeModals}
+                onClick={() => setShowDeleteModal(false)}
                 className="px-4 py-2 rounded bg-gray-300 text-gray-700 hover:bg-gray-400"
               >
                 No
