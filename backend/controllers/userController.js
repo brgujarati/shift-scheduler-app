@@ -2,6 +2,8 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const cloudinary = require("../config/cloudinary");
+const { extractPublicId } = require("../utils/cloudinaryUtils");
 require("dotenv").config();
 
 // ✅ GET /api/users/profile
@@ -75,7 +77,6 @@ exports.uploadProfilePic = async (req, res) => {
     }
 
     const imageUrl = req.file.path;
-
     const user = await User.findById(req.user.id);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -86,7 +87,6 @@ exports.uploadProfilePic = async (req, res) => {
 
     res.status(200).json({
       message: "Upload successful",
-      imageUrl,
     });
   } catch (err) {
     console.error("Upload Error:", err.message);
@@ -98,7 +98,7 @@ exports.uploadProfilePic = async (req, res) => {
 exports.getAllEmployees = async (req, res) => {
   try {
     const employees = await User.find({ role: "employee" }).select(
-      "name email phone address1 address2 userCode profilePicUrl"
+      "name email phone address1 address2 userCode profilePicUrl createdAt"
     );
 
     res.status(200).json({ employees });

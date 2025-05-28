@@ -39,11 +39,14 @@ exports.createShift = async (req, res) => {
       return initials.toUpperCase();
     };
 
-    const datePart = moment(date).format("DDMMYY"); // e.g., 250525
-    const weekNumber = moment(date).isoWeek(); // e.g., 21
-    const clientInitials = getClientInitials(clientName); // e.g., MO
+    const moment = require("moment");
 
-    const shiftId = `${clientInitials}-${datePart}-W${weekNumber}`;
+    const generateShiftId = () => {
+      const now = moment(); // You can also pass in a specific Date if needed
+      return `S-${now.format("YYMMDD-HHmm")}`;
+    };
+
+    const shiftId = generateShiftId();
 
     // ✅ Step 4: Calculate totalHours
     const start = moment(startTime, "HH:mm");
@@ -220,5 +223,32 @@ exports.deleteShift = async (req, res) => {
   } catch (err) {
     console.error("Delete Shift Error:", err.message);
     res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// GET /api/shifts/employee/:id
+exports.getShiftsByEmployee = async (req, res) => {
+  try {
+    const employeeId = req.params.id;
+
+    // Validate that the requester has access (admin or self)
+    const user = await User.findById(req.user.id);
+    // console.log(user.role);
+    if (!user) {
+      return res.status(401).json({ message: "Unauthorized access" });
+    }
+
+    // If the user is an employee, only allow them to view their own shifts
+    if (user.role === "employee" && user._id.toString() !== employeeId) {
+      return res.status(403).json({ message: "Access denied" });
+    }
+
+    // Find shifts where team includes this employeeId
+    const shifts = await Shift.find({ team: employeeId }).sort({ date: -1 });
+
+    res.status(200).json({ shifts });
+  } catch (err) {
+    console.error("Error fetching shifts by employee:", err.message);
+    res.status(500).json({ message: "Server error fetching shifts" });
   }
 };

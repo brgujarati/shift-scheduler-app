@@ -7,12 +7,14 @@ const {
   getAllShifts,
   updateShift,
   deleteShift,
+  getShiftsByEmployee,
 } = require("../controllers/shiftController");
 
 // Create
 router.post("/", verifyToken, verifyAdmin, createShift);
 router.get("/", verifyToken, verifyAdmin, getAllShifts);
-router.get("/:id", verifyToken, verifyAdmin, updateShift);
+router.put("/:id", verifyToken, verifyAdmin, updateShift);
 router.delete("/:id", verifyToken, verifyAdmin, deleteShift);
+router.get("/employee/:id", verifyToken, getShiftsByEmployee);
 
 module.exports = router;

@@ -29,7 +29,7 @@ const parser = multer({
   storage,
   fileFilter,
   limits: {
-    fileSize: 1 * 1024 * 1024, // 1 MB
+    fileSize: 5 * 1024 * 1024, // 5 MB
   },
 });
 
