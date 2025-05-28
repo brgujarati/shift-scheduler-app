@@ -94,7 +94,7 @@ export default function ProfileForm() {
             <div className="bg-white border rounded-xl shadow p-6">
               <div className="flex flex-col items-center">
                 <img
-                  src="https://via.placeholder.com/80"
+                  src=""
                   alt="profile"
                   className="w-24 h-24 rounded-full border mb-4"
                 />

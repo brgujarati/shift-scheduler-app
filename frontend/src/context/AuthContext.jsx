@@ -13,9 +13,6 @@ export const AuthProvider = ({ children }) => {
   const [employees, setEmployees] = useState([]);
   const [shifts, setShifts] = useState([]);
 
-  const isAdmin = role === "admin";
-  const isEmployee = role === "employee";
-
   // Load profile + admin data on mount
   useEffect(() => {
     const fetchProfile = async () => {
@@ -125,15 +122,12 @@ export const AuthProvider = ({ children }) => {
       value={{
         user,
         role,
-        isAdmin,
-        isEmployee,
-        login,
-        logout,
-        loading,
-        refreshUser,
         employees,
         shifts,
-        setShifts, // Optional: for manual updates
+        login,
+        loading,
+        logout,
+        refreshUser,
         refreshAdminData: loadAdminData, // 🔄 exposed as refreshAdminData
       }}
     >

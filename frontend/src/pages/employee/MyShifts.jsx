@@ -59,13 +59,11 @@ export default function MyShifts() {
                 </p>
                 <ul className="list-disc list-inside ml-2">
                   {shift.team?.map((member, idx) => (
-                    <li key={idx}>{member}</li>
+                    <li key={idx}>{member.name}</li> // If populate is working, use member.name
                   ))}
                 </ul>
               </div>
-              <p className="text-red-600 font-medium">
-                📋 {shift.instructions}
-              </p>
+              <p className="text-red-600 font-medium">📋 {shift.instruction}</p>
               <p className="text-red-600 font-medium">
                 ❗ Bring all tools. Wear plain black full sleeve uniform and
                 carry physical ID.
