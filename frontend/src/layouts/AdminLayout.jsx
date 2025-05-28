@@ -1,8 +1,7 @@
 import { Outlet, Link } from "react-router-dom";
-import { useState } from "react";
+import AdminHeader from "../pages/admin/AdminHeader";
 
 export default function AdminLayout() {
-  const [admin] = useState({ name: "Alex Johnson" });
   return (
     <div className="flex min-h-screen bg-gray-50">
       {/* Sidebar */}
@@ -34,6 +33,13 @@ export default function AdminLayout() {
             Employee List
           </Link>
           <Link
+            to="/admin/profile"
+            className="text-left text-gray-700 hover:text-indigo-500"
+          >
+            Profile
+          </Link>
+
+          <Link
             to="/admin/settings"
             className="text-left text-gray-700 hover:text-indigo-500"
           >
@@ -45,13 +51,7 @@ export default function AdminLayout() {
       {/* Right side */}
       <div className="flex flex-col flex-1">
         {/* Header */}
-        <header className="bg-white shadow flex items-center justify-between px-6 py-4">
-          <h1 className="text-xl font-semibold capitalize">Admin Panel</h1>
-          <div className="flex items-center gap-4">
-            <span>{admin.name}</span>
-            <button className="bg-gray-100 rounded-full p-2">👤</button>
-          </div>
-        </header>
+        <AdminHeader />
 
         {/* Main content */}
         <main className="flex-1 p-6 overflow-auto">

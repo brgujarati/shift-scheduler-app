@@ -1,12 +1,8 @@
-function LoginForm({ formik, onFlip }) {
+function LoginForm({ formik }) {
   return (
-    <div
-      className="absolute w-full h-full backface-hidden bg-white rounded-lg shadow-lg p-8 flex flex-col"
-      style={{ transform: "rotateY(0deg)", backfaceVisibility: "hidden" }}
-    >
+    <>
       <h2 className="text-xl font-bold text-center mb-4">Log in</h2>
       <form onSubmit={formik.handleSubmit} className="flex flex-col gap-3">
-        {/* Email */}
         <div>
           <label className="text-sm font-medium text-gray-700">Email</label>
           <input
@@ -18,17 +14,8 @@ function LoginForm({ formik, onFlip }) {
             className="mt-1 w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
           />
         </div>
-        {/* Password */}
         <div>
-          <label className="text-sm font-medium text-gray-700 flex justify-between">
-            Password
-            <span
-              className="text-sm text-indigo-600 hover:underline cursor-pointer"
-              onClick={() => onFlip("forgot")}
-            >
-              Forgot Password?
-            </span>
-          </label>
+          <label className="text-sm font-medium text-gray-700">Password</label>
           <input
             type="password"
             name="password"
@@ -38,7 +25,6 @@ function LoginForm({ formik, onFlip }) {
             className="mt-1 w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
           />
         </div>
-        {/* Role */}
         <div>
           <label className="text-sm font-medium text-gray-700">Role</label>
           <select
@@ -54,21 +40,12 @@ function LoginForm({ formik, onFlip }) {
         </div>
         <button
           type="submit"
-          className="bg-indigo-500 hover:bg-indigo-600 text-white p-2 rounded font-semibold"
+          className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded transition duration-200 shadow"
         >
           LOG IN
         </button>
       </form>
-      <p className="text-center text-sm mt-4 text-gray-600">
-        Don't have an account?{" "}
-        <span
-          className="text-indigo-600 font-medium hover:underline cursor-pointer"
-          onClick={() => onFlip("signup")}
-        >
-          Signup
-        </span>
-      </p>
-    </div>
+    </>
   );
 }
 
