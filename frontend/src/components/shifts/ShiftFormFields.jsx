@@ -90,7 +90,7 @@ export default function ShiftFormFields({ values, setFieldValue }) {
       />
 
       <Field
-        name="instructions"
+        name="instruction"
         as="textarea"
         rows="2"
         placeholder="Instructions"
